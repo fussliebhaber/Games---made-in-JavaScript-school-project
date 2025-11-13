@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rock Paper Scissors</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #121212;
+        font-family: sans-serif;
+        color: #fff;
+      }
+
+      #wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90vmin;
+        height: 90vmin;
+        background: #1f1f1f;
+        border-radius: 10px;
+        padding: 2vmin;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+      }
+
+      h1 {
+        font-size: 5vmin;
+        margin-bottom: 2vmin;
+      }
+
+      .choices {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        margin-bottom: 5vmin;
+      }
+
+      button.choice {
+        padding: 3vmin;
+        font-size: 4vmin;
+        border: none;
+        border-radius: 10px;
+        background: #2c2c2c;
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.2s;
+        flex: 1;
+        margin: 0 1vmin;
+      }
+
+      button.choice:hover {
+        background: #3a3a3a;
+      }
+
+      #result {
+        font-size: 4vmin;
+        margin-bottom: 3vmin;
+        text-align: center;
+      }
+
+      #score {
+        font-size: 3vmin;
+      }
+
+      #reset {
+        padding: 2vmin;
+        font-size: 3vmin;
+        border: none;
+        border-radius: 8px;
+        background: #444;
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.2s;
+        width: 50%;
+      }
+
+      #reset:hover {
+        background: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <h1>Rock Paper Scissors</h1>
+
+      <div class="choices">
+        <button class="choice" data-choice="rock">✊</button>
+        <button class="choice" data-choice="paper">✋</button>
+        <button class="choice" data-choice="scissors">✌️</button>
+      </div>
+
+      <div id="result">Make your move!</div>
+      <div id="score">Player: 0 | AI: 0</div>
+      <button id="reset">Reset Game</button>
+    </div>
+
+    <script>
+      const choices = document.querySelectorAll(".choice");
+      const resultDiv = document.getElementById("result");
+      const scoreDiv = document.getElementById("score");
+      const resetBtn = document.getElementById("reset");
+
+      let playerScore = 0;
+      let aiScore = 0;
+
+      choices.forEach((btn) =>
+        btn.addEventListener("click", () => {
+          const playerChoice = btn.dataset.choice;
+          const aiChoice = ["rock", "paper", "scissors"][
+            Math.floor(Math.random() * 3)
+          ];
+          let result = "";
+
+          if (playerChoice === aiChoice) {
+            result = "Draw!";
+          } else if (
+            (playerChoice === "rock" && aiChoice === "scissors") ||
+            (playerChoice === "paper" && aiChoice === "rock") ||
+            (playerChoice === "scissors" && aiChoice === "paper")
+          ) {
+            result = "You win!";
+            playerScore++;
+          } else {
+            result = "AI wins!";
+            aiScore++;
+          }
+
+          resultDiv.textContent = `You chose ${playerChoice}, AI chose ${aiChoice}. ${result}`;
+          scoreDiv.textContent = `Player: ${playerScore} | AI: ${aiScore}`;
+        })
+      );
+
+      resetBtn.addEventListener("click", () => {
+        playerScore = 0;
+        aiScore = 0;
+        resultDiv.textContent = "Make your move!";
+        scoreDiv.textContent = "Player: 0 | AI: 0";
+      });
+    </script>
+  </body>
+</html>
